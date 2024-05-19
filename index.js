@@ -52,8 +52,8 @@ app.get('/perfumes/:id', async(req, res)=> {
 
 app.post('/perfumes', async (req, res)=> {
     const perfume = new Perfume({ 
-        titulo: req.body.nombre,
-        autor: req.body.marca
+        nombre: req.body.nombre,
+        marca: req.body.marca
     })
 
     try {
