@@ -16,109 +16,89 @@ try {
     console.debug("Error en BD", error);
 }
 
-const libroSchema = new mongoose.Schema({
-    titulo: String,
-    autor: String
+const perfumeSchema = new mongoose.Schema({
+    nombre: String,
+    marca: String
 });
 
-const Libro  = mongoose.model('Libro', libroSchema);
+const Perfume  = mongoose.model('Perfume', perfumeSchema);
 
-const libros = [
-    {
-        id: 1,
-        titulo: "1984",
-        autor: "George Orwell"
-    },
-    {
-        id: 2,
-        titulo: "Cien años de Soledad",
-        autor: "Gabriel Garcia Marques"
-    },
-    {
-        id: 3,
-        titulo: "Dune",
-        autor: "Frank Herbert"
-    },
-]
+
 
 app.get('/', (req, res)=> {
-    res.send("Bienvenido a tienda de libros")
+    res.send("Bienvenido a Api Perfumes")
 })
-app.get('/libros', async (req, res)=> {
+app.get('/perfumes', async (req, res)=> {
     try {
-        const librosDB = await Libro.find();
-        res.status(200).json({data: librosDB})
+        const perfumesDB = await Perfume.find();
+        res.status(200).json({data: perfumesDB})
     } catch(e){
-        console.error("No se pudieron obtener los libros");
-        res.status(500).json({message: "Error al obtener libros"})
+        console.error("No se pudieron obtener los perfumes");
+        res.status(500).json({message: "Error al obtener perfumes"})
     }
    
 })
 
-app.get('/libros/:id', async(req, res)=> {
+app.get('/perfumes/:id', async(req, res)=> {
     const id = req.params.id;
     try {
-        const libro = await Libro.findById(id);
-        res.status(200).json({data: libro})
+        const perfume = await Perfume.findById(id);
+        res.status(200).json({data: perfume})
     } catch(e){
-        console.error("No se pudo obtener el libro");
-        res.status(500).json({message: "Error al obtener  el libro"})
-    }
-
-   
-    
-    
+        console.error("No se pudo obtener el perfume");
+        res.status(500).json({message: "Error al obtener  el perfume"})
+    }  
 })
 
-app.post('/libros', async (req, res)=> {
-    const libro = new Libro({ 
-        titulo: req.body.titulo,
-        autor: req.body.autor
+app.post('/perfumes', async (req, res)=> {
+    const perfume = new Perfume({ 
+        titulo: req.body.nombre,
+        autor: req.body.marca
     })
 
     try {
-        await libro.save(); 
+        await perfume.save(); 
         res.status(201).json({
-            data: libro,
-            message: "libro creado exitosamente"
+            data: perfume,
+            message: "perfume creado exitosamente"
         })
     } catch(e){
         res.status(500).json({
-            message: "Surgió un problema con el servidor al crear el libro"
+            message: "Surgió un problema con el servidor al crear el perfume"
         })
-        console.error("Error al guardar el libro", e)
+        console.error("Error al guardar el perfume", e)
     }
 });
 
-app.put('/libros/:id', async (req, res)=> {
+app.put('/perfumes/:id', async (req, res)=> {
     const {id} = req.params;
 
     try {
-        await Libro.findByIdAndUpdate(id, req.body); 
+        await Perfume.findByIdAndUpdate(id, req.body); 
         res.status(201).json({
-            message: `libro con id ${id} actualizado exitosamente`
+            message: `perfume con id ${id} actualizado exitosamente`
         })
     } catch(e){
         res.status(500).json({
-            message: "Surgió un problema con el servidor al actualizar el libro"
+            message: "Surgió un problema con el servidor al actualizar el perfume"
         })
-        console.error("Error al actualizar el libro", e)
+        console.error("Error al actualizar el perfume", e)
     }
 });
 
-app.delete('/libros/:id', async (req, res)=>{
+app.delete('/perfumes/:id', async (req, res)=>{
     const {id} = req.params;
     console.log(id)
     try {
-        await Libro.findByIdAndDelete(id); 
+        await Perfume.findByIdAndDelete(id); 
         res.status(201).json({
-            message: `libro con id ${id} borrado exitosamente`
+            message: `perfume con id ${id} borrado exitosamente`
         })
     } catch(e){
         res.status(500).json({
-            message: "Surgió un problema con el servidor al borrar el libro"
+            message: "Surgió un problema con el servidor al borrar el perfume"
         })
-        console.error("Error al borrar el libro", e)
+        console.error("Error al borrar el perfume", e)
     }
 })
 
