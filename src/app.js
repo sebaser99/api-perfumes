@@ -102,6 +102,4 @@ app.delete('/perfumes/:id', async (req, res)=>{
     }
 })
 
-app.listen(3000, ()=> {
-    console.log("Servidor ejecutandose en puerto http://localhost:3000")
-})
+module.exports  = app;
